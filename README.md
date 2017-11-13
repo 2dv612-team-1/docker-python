@@ -31,6 +31,12 @@ Needed?
 
 Instruction to clean up containers and images.
 
+```bash
+docker rm $(docker ps -a -q)
+docker rmi $(docker images -a -q)
+docker volume rm $(docker volume ls -f dangling=true -q)
+```
+
 ## Links
 
 * [Flask/MongoDB Tutorial](http://containertutorials.com/docker-compose/flask-mongo-compose.html)

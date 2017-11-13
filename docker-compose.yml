@@ -7,7 +7,7 @@ services:
     volumes:
       - ./src:/app
     environment:
-      - FLASK_APP=src/main.py
+      - FLASK_APP=main.py
       - FLASK_DEBUG=1
       - 'RUN=flask run --host=0.0.0.0 --port=80'
     command: flask run --host=0.0.0.0 --port=80
