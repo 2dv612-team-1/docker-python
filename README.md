@@ -31,6 +31,8 @@ Needed?
 
 Instruction to clean up containers and images.
 
+_**WARNING**_ Removes _all_ containers, images and volumes!
+
 ```bash
 docker rm $(docker ps -a -q)
 docker rmi $(docker images -a -q)
