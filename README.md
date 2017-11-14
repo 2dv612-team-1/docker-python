@@ -25,6 +25,12 @@ To run in detached mode simply add the flag -d to the end of the command.
 docker-compose up -d
 ```
 
+Then kill the process with:
+
+```bash
+docker-compose kill
+```
+
 ### Windows
 
 Same as Linux.
