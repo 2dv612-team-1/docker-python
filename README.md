@@ -19,9 +19,25 @@ docker-compose up
 
 Go to `http://localhost:8080/` when its finished loading.
 
+To run in detached mode simply add the flag -d to the end of the command.
+
+```bash
+docker-compose up -d
+```
+
+Then kill the process with:
+
+```bash
+docker-compose kill
+```
+
 ### Windows
 
-Coming soon-ish...
+Same as Linux.
+
+If you run into an error while running docker-compose up, open the settings of Docker for Windows (right click icon in taskbar and select settings). Then go to Network tab and select Fixed DNS Server with the adress 8.8.8.8 (should be prefilled already). Apply and wait for docker to restart. Try docker-compose up again.
+
+You also require a password in order to share files with docker, for some reason Docker can't handle a user without a password so if you don't have one, you should add a password to your profile.
 
 ### MacOS
 
