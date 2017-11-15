@@ -7,8 +7,6 @@ app = Flask(__name__)
 client = MongoClient('mongodb:27017')
 db = client.tododb
 
-representatives = db.representatives
-
 
 @app.route('/representatives', methods=['GET'])
 def getRepresentatives():
