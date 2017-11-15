@@ -63,6 +63,7 @@ def addCredentials():
 	else:
 		representative = Representatives(name = json_data['name'], company = json_data['company'], credentials = Credentials(email = json_data['email'], password = json_data['password']))
 		representative.save()
+		status = 'success'
 
 	return jsonify({'result': status})
 
