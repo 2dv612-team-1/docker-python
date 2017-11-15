@@ -1,6 +1,6 @@
 import os
 from flask import Flask, jsonify, redirect, url_for, request, render_template
-#import bcrypt
+import bcrypt
 
 app = Flask(__name__)
 app.config['MONGODB_HOST'] = "172.18.0.2"
@@ -61,17 +61,17 @@ def getUserByÉmail(email):
 
 	return jsonify({'result' : result})
 
-#testest
+
 @app.route('/register', methods=['POST', 'GET'])
 def register():
 	if request.method == 'POST':
 		try:
-			query = User.objects.get(email = json_data['email'])
+			query = User.objects.get(email = request.form['email'])
 			result = 'this user is already registered'
 
 		except User.DoesNotExist:
-			hashpass = bcrypt.hashpw(request.form['password'], bcrypt.genSalt())
-			user = User(name = json_data['name'], company = json_data['company'], email = json_data['email'], password = hashpass)
+			hashpass = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt())#bcrypt.checkpw
+			user = User(password = hashpass)
 			user.save()
 			result = 'success'
 
