@@ -1,4 +1,5 @@
 flask
 Flask-PyMongo
 flask_mongoengine
+bcrypt
 PyJWT

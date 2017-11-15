@@ -1,10 +1,9 @@
 import os
 from flask import Flask, jsonify, redirect, url_for, request, render_template
-from pymongo import MongoClient
 #import bcrypt
 
 app = Flask(__name__)
-app.config['MONGODB_HOST'] = "172.18.0.3"
+app.config['MONGODB_HOST'] = "172.18.0.2"
 app.config['MONGODB_PORT'] = 27017
 
 from models import mongo_engine
@@ -17,12 +16,12 @@ user.save()
 
 @app.route('/users', methods=['GET'])
 def users():
-	json_reps = []
+	result = []
 
 	for rep in User.objects:
-		json_reps.append({'name' : rep.name, 'company' : rep.company})
+		result.append({'name' : rep.name, 'company' : rep.company})
 	
-	return jsonify({'result' : json_reps})
+	return jsonify({'result' : result})
 
 @app.route('/test', methods=['GET'])
 def andersch():
@@ -49,34 +48,34 @@ def getUserByÉmail(email):
 	#query = Representatives.objects(name = input_name)			returns 'QuerySet' of duplicates
 	#query = Representatives.objects.get(name = input_name)		raises DoesNotExist if no document matches the query
 	#query = Representatives.objects(name = input_name)[0] 		find one(first) among duplicates
-	out = 'No results found'
+	result = 'No results found'
 
 	try:
 		query = User.objects.get(email = email)
 
 		if query:
-			out = {'name' : query.name, 'company' : query.company}
+			result = {'name' : query.name, 'company' : query.company}
 
 	except User.DoesNotExist:
 		result = 'No registered user with that email'
 
-	return jsonify({'result' : out})
+	return jsonify({'result' : result})
 
 #testest
 @app.route('/register', methods=['POST', 'GET'])
-def addCredentials():
-	json_data = request.json
+def register():
+	if request.method == 'POST':
+		try:
+			query = User.objects.get(email = json_data['email'])
+			result = 'this user is already registered'
 
-	try:
-		query = User.objects.get(email = json_data['email'])
-		status = 'this user is already registered'
+		except User.DoesNotExist:
+			hashpass = bcrypt.hashpw(request.form['password'], bcrypt.genSalt())
+			user = User(name = json_data['name'], company = json_data['company'], email = json_data['email'], password = hashpass)
+			user.save()
+			result = 'success'
 
-	except User.DoesNotExist:
-		user = User(name = json_data['name'], company = json_data['company'], email = json_data['email'], password = json_data['password'])
-		user.save()
-		status = 'success'
-		
-	return jsonify({'result': status})
+	return jsonify({'result': result})
 
 if __name__ == '__main__':
   app.run(host='0.0.0.0', debug=True, port=80)
