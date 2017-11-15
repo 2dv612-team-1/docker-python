@@ -28,7 +28,7 @@ def andersch():
 	query = Representatives.objects.get(company = company)
 
 	if query:
-		out = {'name' : query['name'], 'company' : query['company']}
+		out = {'name' : query.name, 'company' : query.company}
 	else:
 		representative = Representatives(name = query.name, company = query.company)
 		representative.save()
